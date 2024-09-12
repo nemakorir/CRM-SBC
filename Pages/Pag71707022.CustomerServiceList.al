@@ -3,10 +3,13 @@ page 71707022 "Customer Service List"
     ApplicationArea = All;
     Caption = 'Customer Service List';
     PageType = List;
-    SourceTable = "Svr Rel.Header";
+    SourceTable = "Case";
     UsageCategory = Lists;
-    CardPageId = "SVR Header Card";
-     layout
+    CardPageId = "Case Card";
+    Editable = false;
+    InsertAllowed = false;
+    DeleteAllowed = false;
+    layout
     {
         area(Content)
         {

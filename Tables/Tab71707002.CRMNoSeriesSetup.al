@@ -11,7 +11,7 @@ table 71707002 "CRM No Series Setup"
         }
         field(2; "Svr Rel.Header"; Code[100])
         {
-            Caption = 'Svr Rel.Header';
+            Caption = 'Case No Series';
             TableRelation = "No. Series".Code;
         }
         field(3; "Marketing G/L Account"; Code[100])

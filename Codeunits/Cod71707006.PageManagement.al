@@ -1,4 +1,4 @@
-codeunit 71707006 "Page Management Ext"
+codeunit 71707006 "Page Management Extee"
 {
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Page Management", 'OnAfterGetPageID', '', false, false)]
     local procedure OnAfterGetPageID(RecordRef: RecordRef; var PageID: Integer);

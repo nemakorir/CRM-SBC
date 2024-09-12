@@ -189,8 +189,11 @@ pageextension 71707012 "Opportunity Card Ext" extends "Opportunity Card"
                     if Rec."Contact Type" = Rec."Contact Type"::Groups then begin
                         CustomerApplication."Type of Customer" := CustomerApplication."Type of Customer"::Groups;
                     end;
-                    if Rec."Contact Type" = Rec."Contact Type"::Business then begin
-                        CustomerApplication."Type of Customer" := CustomerApplication."Type of Customer"::Business;
+                    if Rec."Contact Type" = Rec."Contact Type"::"Business/Company" then begin
+                        CustomerApplication."Type of Customer" := CustomerApplication."Type of Customer"::"Business/Company";
+                    end;
+                    if Rec."Contact Type" = Rec."Contact Type"::"Co-Borrowing" then begin
+                        CustomerApplication."Type of Customer" := CustomerApplication."Type of Customer"::"Co-Borrowing";
                     end;
                     //security
                     if rec."Security Type" = Rec."Security Type"::"Log Book" then begin

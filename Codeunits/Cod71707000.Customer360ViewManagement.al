@@ -38,9 +38,9 @@ codeunit 71707000 "Customer 360 View Management"
 
     procedure CalculateSurcharge(CustNo: Code[100]): Decimal
     var
-    Today:Date;
+        Today: Date;
     begin
-        Today:=WorkDate();
+        Today := WorkDate();
         LoansR.Reset();
         LoansR.SetRange("Customer No.", CustNo);
         Surcharge := 0;
@@ -119,6 +119,16 @@ codeunit 71707000 "Customer 360 View Management"
         end;
     end;
 
+    local procedure OpenLoansListWithFilter()
+    var
+        LoansListPage: Page "Loans List";
+        LoansR: record Loans;
+    begin
+        LoansR.SetRange(Status, LoansR.Status::Approved);
+        LoansListPage.SetTableView(LoansR);
+        LoansListPage.Run();
+    end;
+
     var
         Cust: Record Customer;
         LoansR: Record Loans;
@@ -129,7 +139,7 @@ codeunit 71707000 "Customer 360 View Management"
         Camp: Record Campaign;
         segment: Record "Segment Line";
         segmentRec: Record "Interaction Log Entry";
-        SVRHeader: Record "Svr Rel.Header";
+        SVRHeader: Record "Case";
         CustLedgerEntry: Record "Cust. Ledger Entry";
         "No of Active Collaterals": Integer;
         "No of Inactive Collaterals": Integer;

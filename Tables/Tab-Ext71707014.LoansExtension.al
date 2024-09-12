@@ -1,4 +1,4 @@
-tableextension 71707014 "Loans Extension" extends Loans
+tableextension 71707014 "Loans Extensions" extends Loans
 {
     fields
     {

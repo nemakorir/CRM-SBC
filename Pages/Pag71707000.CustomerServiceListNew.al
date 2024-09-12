@@ -3,9 +3,9 @@ page 71707000 "Customer Service List(New)"
     ApplicationArea = All;
     Caption = 'Customer Service List(Customer Service)';
     PageType = List;
-    SourceTable = "Svr Rel.Header";
+    SourceTable = "Case";
     UsageCategory = Lists;
-    CardPageId = "SVR Header Card";
+    CardPageId = "Case Card";
     SourceTableView=where(Status=const(CX));
     layout
     {
@@ -71,5 +71,5 @@ page 71707000 "Customer Service List(New)"
        
     end;
     var
-     SvrHeader: Record "Svr Rel.Header";
+     SvrHeader: Record "Case";
 }

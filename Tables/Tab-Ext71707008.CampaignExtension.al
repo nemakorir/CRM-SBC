@@ -26,11 +26,11 @@ tableextension 71707008 "Campaign Extension" extends Campaign
             TableRelation = "G/L Budget Name";
             trigger OnValidate()
             begin
-                GLSetup.Get();
+                /*GLSetup.Get();
                 if "Budget Name" <> GLSetup."Current Budget" then begin
                     Error('The Budget Name selected does not match the Current Budget');
                 end;
-                budgeCheck();
+                budgeCheck();*/
             end;
         }
         field(71707002; "Total Cost"; Decimal)
@@ -70,7 +70,7 @@ tableextension 71707008 "Campaign Extension" extends Campaign
     begin
         CRMSetup.Get();
         GLSetup.Get();
-        "Budget Name" := GLSetup."Current Budget";
+       // "Budget Name" := GLSetup."Current Budget";
         if GLAcc.Get(CRMSetup."Marketing G/L Account") then begin
             if GLAcc.Get(CRMSetup."Marketing G/L Account") then begin
                 GLAcc.CalcFields(Balance);

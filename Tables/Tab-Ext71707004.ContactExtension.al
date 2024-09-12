@@ -72,7 +72,7 @@ tableextension 71707004 "Contact Extension" extends Contact
         {
             Caption = 'Branch Code';
             DataClassification = ToBeClassified;
-            TableRelation="Dimension Value".Code where ("Dimension Code"=const('BRANCH'));
+            TableRelation = "Dimension Value".Code where("Dimension Code" = const('BRANCH'));
             trigger OnValidate()
             begin
             end;
@@ -102,7 +102,7 @@ tableextension 71707004 "Contact Extension" extends Contact
         field(717070012; "Contact Type"; Option)
         {
             DataClassification = ToBeClassified;
-            OptionMembers = " ",Individual,Groups,Business;
+            OptionMembers = " ",Individual,Groups,"Business/Company","Co-Borrowing";
             trigger OnValidate()
             begin
                 if "Contact Type" = "Contact Type"::Individual then begin

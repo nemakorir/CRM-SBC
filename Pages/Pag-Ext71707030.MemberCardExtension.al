@@ -1,4 +1,4 @@
-pageextension 71707030 "Member Card Extension" extends "Member Card"
+pageextension 71707030 "Member Card Extensions" extends "Member Card"
 {
     layout
     {
@@ -24,7 +24,7 @@ pageextension 71707030 "Member Card Extension" extends "Member Card"
     }
     trigger OnOpenPage()
     begin
-        MemberApplication.SetRange("Identification Doc. No.", Rec."Identification Doc. No.");
+       /* MemberApplication.SetRange("Identification Doc. No.", Rec."Identification Doc. No.");
         if MemberApplication.FindFirst() then begin
             if MemberApplication.Status = MemberApplication.Status::Approved then begin
                 Cust.SetRange("Identification Doc. No.", Rec."Identification Doc. No.");
@@ -42,7 +42,7 @@ pageextension 71707030 "Member Card Extension" extends "Member Card"
             end;
         end else begin
             Error('No Member Application found for Identification Doc. No. %1', Rec."Identification Doc. No.");
-        end;
+        end;*/
     end;
 
     var

@@ -663,7 +663,7 @@ pageextension 71707011 "Member Statistic FactBox ext" extends "Member Statistic 
         segment: Record "Segment Line";
         Contact: Record Contact;
         segmentRec: Record "Interaction Log Entry";
-        SVRHeader: Record "Svr Rel.Header";
+        SVRHeader: Record "Case";
         CustLedgerEntry: Record "Cust. Ledger Entry";
         "No of Active Collaterals": Integer;
         "No of Inactive Collaterals": Integer;

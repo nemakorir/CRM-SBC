@@ -1,6 +1,6 @@
-table 71707001 "Svr Rel.Lines"
+table 71707001 "Case Lines"
 {
-    Caption = 'Svr. Rel Lines';
+    Caption = 'Case Lines';
     DataClassification = ToBeClassified;
 
     fields
@@ -192,7 +192,7 @@ table 71707001 "Svr Rel.Lines"
         {
             Editable = false;
         }
-        field(42; "Comments"; Text[200])
+        field(42; "Comments"; Text[500])
         {
             Editable = false;
         }
@@ -216,7 +216,7 @@ table 71707001 "Svr Rel.Lines"
         {
             Editable = false;
         }
-        field(49; Remarks; Text[100])
+        field(49; Remarks; Text[500])
         {
             Editable = false;
         }
@@ -248,8 +248,8 @@ table 71707001 "Svr Rel.Lines"
 
 
     var
-        SvrHeader: Record "Svr Rel.Header";
-        SvrRelHeaderLine: Record "Svr Rel.Lines";
+        SvrHeader: Record "Case";
+        SvrRelHeaderLine: Record "Case Lines";
         Emp: Record Employee;
 
 }

@@ -3,9 +3,9 @@ page 71707002 "Customer Service List(Finance)"
     ApplicationArea = All;
     Caption = 'Customer Service List(Finance)';
     PageType = List;
-    SourceTable = "Svr Rel.Header";
+    SourceTable = "Case";
     UsageCategory = Lists;
-    CardPageId = "SVR Header Card";
+    CardPageId = "Case Card";
     SourceTableView=where(Status=const(Finance));
     layout
     {

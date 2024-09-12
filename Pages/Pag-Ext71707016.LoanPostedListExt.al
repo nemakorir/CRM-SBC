@@ -1,4 +1,4 @@
-pageextension 71707016 "Loan Posted List Ext" extends "Loan Posted List"
+pageextension 71707016 "Loan Posted List Exts" extends "Loan Posted List"
 {
     layout
     {

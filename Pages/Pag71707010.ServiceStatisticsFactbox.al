@@ -2,7 +2,7 @@ page 71707010 "Service Statistics Factbox"
 {
     Caption = 'Customer Info';
     PageType = CardPart;
-    SourceTable = "Svr Rel.Header";
+    SourceTable = "Case";
 
     layout
     {
@@ -310,8 +310,8 @@ page 71707010 "Service Statistics Factbox"
     end;
 
     var
-        SvrHeader: Record "Svr Rel.Header";
-        SvrRelHeaderLine: Record "Svr Rel.Lines";
+        SvrHeader: Record "Case";
+        SvrRelHeaderLine: Record "Case Lines";
         Cust: Record Customer;
         LoansR: Record Loans;
         CollRegister: Record "Collateral Register";

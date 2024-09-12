@@ -3,8 +3,10 @@ codeunit 71707001 SendEmail
 
     procedure CaseEscalation(CaseNo: code[100])
 
+    var
+        EmailBody: Text;
     begin
-        URL := 'http://192.168.137.115:8080/BC200/';
+        URL := 'http://192.168.137.116:8080/BC200/';
         SvrHeader.SetRange("Service No.", CaseNo);
         if SvrHeader.FindFirst() then begin
             RecipientEmailAddress := SvrHeader."E mail address";
@@ -21,17 +23,24 @@ codeunit 71707001 SendEmail
                     end;
                 end;
             end;
-
             Subject := SvrHeader."Service No." + ' ' + SvrHeader.Name + ' ' + Format(SvrHeader."Case Type");
             //Escalation message
             if (SvrHeader.Resolved = false) and (SvrHeader.Hold = false) then begin
                 SecondaryEmail();
                 Body := SvrHeader."Service No." + ' ' + SvrHeader.Description + ' for Customer No: ' + SvrHeader."Customer No." + '  Customer Name: ' + SvrHeader.Name + ' Mode of Contact:  ' + Format(SvrHeader."Mode of Contact") + ' and nature of service is. ' + Format(SvrHeader."Nature of Service") + ' ' + SvrHeader.Remarks + ' ' + URL;
+                /*TemplateType := TemplateType::Escalation;
+                if GetEmailTemplate(TemplateType, EmailBody) then begin
+                    Body := FormatEmailBody(EmailBody, SvrHeader);
+                end;*/
             end;
             //Resolution message
             if (SvrHeader.Resolved = true) and (SvrHeader.Hold = false) and (SvrHeader."IsReleased?" = false) then begin
                 SecondaryEmail();
                 Body := 'Dear Team , ' + ' Ticket No. ' + SvrHeader."Service No." + '  has been resolved with the following remarks  ' + SvrHeader.Remarks + ' ' + URL;
+                /*TemplateType := TemplateType::Resolution;
+                if GetEmailTemplate(TemplateType, EmailBody) then begin
+                    Body := FormatEmailBody(EmailBody, SvrHeader);
+                end;*/
             end;
             //Hold message
             if (SvrHeader.Hold = true) and (SvrHeader."IsReleased?" = false) then begin
@@ -45,8 +54,12 @@ codeunit 71707001 SendEmail
             end;
             //Closing message
             if SvrHeader."IsClosed?" then begin
-               // Message('IsClosed:%1', SvrHeader."IsClosed?");
+                // Message('IsClosed:%1', SvrHeader."IsClosed?");
                 Body := SvrHeader."Service No." + ' has been closed: ' + SvrHeader.Remarks + ' ' + URL;
+                /*TemplateType := TemplateType::Close;
+                if GetEmailTemplate(TemplateType, EmailBody) then begin
+                    Body := FormatEmailBody(EmailBody, SvrHeader);
+                end;*/
             end;
             EmailMessage.Create(RecipientEmailAddress, Subject, Body);
             IsSent := Email.Send(EmailMessage, Enum::"Email Scenario"::"BC Auto Notfications");
@@ -182,9 +195,37 @@ codeunit 71707001 SendEmail
         end;
     end;
 
+    local procedure GetEmailTemplate(TemplateType: Option " ",Escalation,Hold,Resolution,Close; var EmailBody: Text): Boolean
+    begin
+        EmailTemplate.SetRange(Type, TemplateType);
+        if EmailTemplate.FindFirst() then begin
+            EmailBody := EmailTemplate."Email Message";
+            //Message('Retrieved Email Body: %1', EmailBody);
+            exit(true);
+        end;
+        exit(false);
+    end;
+
+    procedure FormatEmailBody(var EmailBody: Text; SvrHeader: Record "Case"): Text
+    begin
+        Message('Original Email Body: %1', EmailBody);
+        Message('Department assigned: %1', SvrHeader."Department assigned");
+        //EmailBody := StrSubstNo(EmailBody, '{First Name}', SvrHeader."Department assigned");
+        EmailBody := EmailBody.Replace('{Deparrtment}', SvrHeader."Department assigned");
+        EmailBody := EmailBody.Replace('{Ref no.}', SvrHeader."Service No.");
+        EmailBody := EmailBody.Replace('{Insert Link}', URL);
+        Message('After Substitution: %1', EmailBody);
+        exit(EmailBody);
+    end;
+
+    local procedure GenerateUniqueThreadID(CaseNo: Code[100]): Text[250]
+    begin
+        exit('<' + Format(CaseNo) + '@mydomain.com>'); // Example ID format
+    end;
+
     var
-        SvrHeader: Record "Svr Rel.Header";
-        SvrRelLine: Record "Svr Rel.Lines";
+        SvrHeader: Record "Case";
+        SvrRelLine: Record "Case";
         EmailMessage: Codeunit "Email Message";
         MailManagement: Codeunit "Mail Management";
         Email: Codeunit Email;
@@ -204,4 +245,6 @@ codeunit 71707001 SendEmail
         UserSetup: Record "User Setup";
         CreatorEmail: Text;
         ReassignedDeptEmail: Text;
+        EmailTemplate: Record "Email Templates List";
+        TemplateType: Option " ",Escalation,Hold,Release,Resolution,Close;
 }

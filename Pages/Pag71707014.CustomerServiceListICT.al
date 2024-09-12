@@ -3,9 +3,9 @@ page 71707014 "Customer Service List(ICT)"
     ApplicationArea = All;
     Caption = 'Customer Service List(ICT)';
     PageType = List;
-    SourceTable = "Svr Rel.Header";
+    SourceTable = "Case";
     UsageCategory = Lists;
-     CardPageId = "SVR Header Card";
+     CardPageId = "Case Card";
     SourceTableView=where(Status=const(ICT));
     layout
     {

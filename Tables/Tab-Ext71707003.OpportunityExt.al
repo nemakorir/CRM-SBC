@@ -90,7 +90,7 @@ tableextension 71707003 "Opportunity Ext" extends Opportunity
         field(71707011; "Contact Type"; Option)
         {
             DataClassification = ToBeClassified;
-            OptionMembers = " ",Individual,Groups,Business;
+            OptionMembers = " ",Individual,Groups,"Business/Company","Co-Borrowing";
         }
         field(71707012; "Segment Name"; Text[100])
         {

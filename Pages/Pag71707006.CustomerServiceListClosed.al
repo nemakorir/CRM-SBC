@@ -3,9 +3,9 @@ page 71707006 "Customer Service List(Closed)"
     ApplicationArea = All;
     Caption = 'Customer Service List(Closed/Hold)';
     PageType = List;
-    SourceTable = "Svr Rel.Header";
+    SourceTable = "Case";
     UsageCategory = Lists;
-    CardPageId = "SVR Header Card";
+    CardPageId = "Case Card";
     SourceTableView = where(Status = const(Closed));
     DeleteAllowed = false;
     layout

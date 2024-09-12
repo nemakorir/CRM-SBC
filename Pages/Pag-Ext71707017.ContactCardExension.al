@@ -173,6 +173,7 @@ pageextension 71707017 "Contact Card Exension" extends "Contact Card"
     {
         modify("Create Opportunity")
         {
+            Caption = 'Create Lead';
             trigger OnAfterAction()
             begin
                 /*Rec.TestField(Name);

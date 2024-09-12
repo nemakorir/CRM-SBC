@@ -182,8 +182,8 @@ codeunit 71707002 "Case Management"
 
     var
         IsEditable: Boolean;
-        SvrHeader: Record "Svr Rel.Header";
-        SvrRelLine: Record "Svr Rel.Lines";
+        SvrHeader: Record "Case";
+        SvrRelLine: Record "Case Lines";
         Cust: Record Customer;
         LoansR: Record Loans;
         CollRegister: Record "Collateral Register";

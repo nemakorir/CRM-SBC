@@ -1,10 +1,10 @@
 page 71707007 "Svr Rel Header Lines"
 {
-    Caption = 'Svr Rel Header Lines';
+    Caption = 'Case Lines';
     PageType = ListPart;
-    SourceTable = "Svr Rel.Lines";
-    Editable = false;
-    DeleteAllowed = false;
+    SourceTable = "Case Lines";
+    Editable = true;
+    DeleteAllowed = true;
     layout
     {
         area(Content)

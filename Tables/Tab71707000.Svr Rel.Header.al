@@ -1,6 +1,6 @@
-table 71707000 "Svr Rel.Header"
+table 71707000 "Case"
 {
-    Caption = 'Service Header';
+    Caption = 'Case';
     DataClassification = ToBeClassified;
 
     fields
@@ -136,7 +136,7 @@ table 71707000 "Svr Rel.Header"
             Caption = 'Response Date/Time(Closed)';
             Editable = false;
         }
-        field(26; "CX Department Comments"; Text[200])
+        field(26; "CX Department Comments"; Text[500])
         {
             Caption = 'CX Department Comments';
 
@@ -148,7 +148,7 @@ table 71707000 "Svr Rel.Header"
 
             end;
         }
-        field(27; "Finance Department Comments"; Text[200])
+        field(27; "Finance Department Comments"; Text[500])
         {
             Caption = 'Finance Department Comments';
             Editable = false;
@@ -160,7 +160,7 @@ table 71707000 "Svr Rel.Header"
 
             end;
         }
-        field(28; "Credit Department Comments "; Text[200])
+        field(28; "Credit Department Comments "; Text[500])
         {
             Caption = 'Credit Department Comments ';
             Editable = false;
@@ -172,7 +172,7 @@ table 71707000 "Svr Rel.Header"
 
             end;
         }
-        field(29; "BD Department Comments"; Text[200])
+        field(29; "BD Department Comments"; Text[500])
         {
             Caption = 'BD Department Comments';
             Editable = false;
@@ -183,7 +183,7 @@ table 71707000 "Svr Rel.Header"
                 //CaseManagement.UpdateSvrRelLineComments(CaseNo);
             end;
         }
-        field(30; "HR Department Comments "; Text[200])
+        field(30; "HR Department Comments "; Text[500])
         {
             Caption = 'HR Department Comments';
             Editable = false;
@@ -229,7 +229,7 @@ table 71707000 "Svr Rel.Header"
             Caption = 'Response Date/Time(ICT)';
             Editable = false;
         }
-        field(38; "ICT Department Comments "; Text[200])
+        field(38; "ICT Department Comments "; Text[500])
         {
             Caption = 'ICT Department Comments';
             Editable = false;
@@ -478,11 +478,15 @@ table 71707000 "Svr Rel.Header"
             Editable = false;
             Caption = 'Employee Name';
         }
-        field(73; Remarks; Text[100])
+        field(73; Remarks; Text[500])
         {
             Caption = 'Resolution/Remarks';
         }
         field(74; "IsReleased?"; Boolean)
+        {
+            Editable = false;
+        }
+        field(75; "Email Thread ID"; Text[250])
         {
             Editable = false;
         }
@@ -571,8 +575,8 @@ table 71707000 "Svr Rel.Header"
 
     var
         IsEditable: Boolean;
-        SvrHeader: Record "Svr Rel.Header";
-        SvrRelLine: Record "Svr Rel.Lines";
+        SvrHeader: Record "Case";
+        SvrRelLine: Record "Case Lines";
         Cust: Record Customer;
         LoansR: Record Loans;
         CollRegister: Record "Collateral Register";
