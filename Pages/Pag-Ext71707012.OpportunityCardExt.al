@@ -7,6 +7,22 @@ pageextension 71707012 "Opportunity Card Ext" extends "Opportunity Card"
         {
             Visible = false;
         }
+        addbefore("Contact No.")
+        {
+            field(IsCustomer; Rec.IsCustomer)
+            {
+                ApplicationArea = All;
+            }
+            field("Customer No."; Rec."Customer No.")
+            {
+                ApplicationArea = All;
+                //Editable = IsExistingCustomer;
+            }
+            field("Customer Name"; Rec."Customer Name")
+            {
+                ApplicationArea = All;
+            }
+        }
         addafter("Contact Name")
         {
             field("Lead Name"; Rec."Lead Name")
@@ -142,6 +158,10 @@ pageextension 71707012 "Opportunity Card Ext" extends "Opportunity Card"
         {
             Visible = false;
         }
+        modify("Activate the First Stage")
+        {
+            Visible = false;
+        }
         addafter("Activate the First Stage")
         {
             action("Create Customer")
@@ -158,7 +178,9 @@ pageextension 71707012 "Opportunity Card Ext" extends "Opportunity Card"
                     Rec.TestField("Source Of Business");
                     Cust.SetFilter("Identification Doc. No.", Rec."ID No.");
                     if Cust.FindFirst() then begin
-                        Error('There is an existing customer with the same ID No., please check the customer card for accuracy before proceeding to loan application.');
+                        if rec.IsCustomer = false then begin
+                            Error('There is an existing customer with the same ID No., please check the customer card for accuracy before proceeding to loan application.');
+                        end;
                     end;
                     CustomerApplication.Init();
                     CustomerApplication."Identification Doc. No." := Rec."ID No.";
@@ -173,6 +195,7 @@ pageextension 71707012 "Opportunity Card Ext" extends "Opportunity Card"
                     CustomerApplication."Mobile Phone No" := Rec."Phone No.";
                     CustomerApplication.Name := Rec."Lead Name";
                     CustomerApplication."E-Mail" := Rec."Lead Email";
+                    CustomerApplication.Name := rec."Customer Name";
                     //CustomerApplication."Campaign No." := Rec."Campaign No.";
                     //CustomerApplication."Campaign Name" := Rec."Campaign Name";
                     CustomerApplication."Campaign No." := Rec.CampNo;
@@ -246,6 +269,7 @@ pageextension 71707012 "Opportunity Card Ext" extends "Opportunity Card"
     trigger OnOpenPage()
     begin
         LeadTypes();
+        //SetEditableFields();
     end;
 
     trigger OnAfterGetRecord()
@@ -279,6 +303,21 @@ pageextension 71707012 "Opportunity Card Ext" extends "Opportunity Card"
         end;
     end;
 
+    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
+    begin
+        /*if Rec.IsCustomer = true then begin
+            IsExistingCustomer := true;
+        end;
+        if Rec.IsCustomer = false then begin
+            IsExistingCustomer := true;
+        end;*/
+    end;
+
+    procedure SetEditableFields();
+    begin
+        IsExistingCustomer := Rec.IsCustomer = true;
+    end;
+
     var
         Opport: Record Opportunity;
         OpportEntry: Record "Opportunity Entry";
@@ -286,4 +325,5 @@ pageextension 71707012 "Opportunity Card Ext" extends "Opportunity Card"
         Cust: Record Customer;
         CustomerApplication: Record "Member Application";
         InteractionLogEntry: Record "Interaction Log Entry";
+        IsExistingCustomer: Boolean;
 }

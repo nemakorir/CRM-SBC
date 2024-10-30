@@ -1,6 +1,6 @@
 page 71707001 "Case Card"
 {
-    Caption = 'Case Card'; 
+    Caption = 'Case Card';
     PageType = Card;
     SourceTable = "Case";
     PromotedActionCategories = 'New,Process,Report,New Document,Approve,Request Approval,Navigate,Customer';
@@ -167,11 +167,11 @@ page 71707001 "Case Card"
                     ApplicationArea = All;
                     MultiLine = true;
                 }
-               field("Email Thread ID";Rec."Email Thread ID")
-               {
-                ApplicationArea=All;
-                Visible=false;
-               }
+                field("Email Thread ID"; Rec."Email Thread ID")
+                {
+                    ApplicationArea = All;
+                    Visible = false;
+                }
             }
             part("Svr Rel Header Lines"; "Svr Rel Header Lines")
             {
@@ -189,7 +189,7 @@ page 71707001 "Case Card"
                     trigger OnValidate()
                     begin
                         UpdateSvrRelLineComments();
-                        Rec."CX Department Comments":='';
+
                     end;
                 }
                 field("Employee No.(CX)"; Rec."Employee No.")
@@ -224,7 +224,7 @@ page 71707001 "Case Card"
                     trigger OnValidate()
                     begin
                         UpdateSvrRelLineComments();
-                        Rec."BD Department Comments" := '';
+                        
                     end;
                 }
                 field("Employee No.(BD)"; Rec."Employee No(BD).")
@@ -258,7 +258,7 @@ page 71707001 "Case Card"
                     trigger OnValidate()
                     begin
                         UpdateSvrRelLineComments();
-                        Rec."Credit Department Comments " := '';
+                       
                     end;
                 }
                 field("Employee No.(CREDIT)"; REC."Employee No(CREDIT).")
@@ -292,7 +292,7 @@ page 71707001 "Case Card"
                     trigger OnValidate()
                     begin
                         UpdateSvrRelLineComments();
-                        Rec."Finance Department Comments" := '';
+                        
                     end;
                 }
                 field("Employee No.(FIN)"; Rec."Employee No(FINANCE).")
@@ -327,7 +327,7 @@ page 71707001 "Case Card"
                     trigger OnValidate()
                     begin
                         UpdateSvrRelLineComments();
-                        Rec."ICT Department Comments " := '';
+                       
                     end;
                 }
                 field("Employee No.(ICT)"; Rec."Employee No(ICT).")
@@ -362,7 +362,7 @@ page 71707001 "Case Card"
                     trigger OnValidate()
                     begin
                         UpdateSvrRelLineComments();
-                        Rec."HR Department Comments " := '';
+                        
                     end;
                 }
                 field("Employee No.(HR)"; Rec."Employee No(HR).")
@@ -399,10 +399,10 @@ page 71707001 "Case Card"
             systempart(Control8; Links)
             {
             }
-            part("Service Statistics Factbox"; "Service Statistics Factbox")
+            part("Service Statistics Factbox"; "Member Statistic FactBox")
             {
                 ApplicationArea = All;
-                SubPageLink = "Service No." = field("Service No."), "Customer No." = field("Customer No.");
+                SubPageLink = "No." = field("Customer No.");
             }
         }
 
@@ -462,6 +462,7 @@ page 71707001 "Case Card"
 
                                 Rec.Status := Rec.Status::CX;
                                 Rec.Stage := rec.Stage::"In Progress";
+                                SendEmail.EraseComments(CaseNo);
                                 Commit();
                                 SetEditableFields();
                                 CurrPage.Update();
@@ -471,6 +472,7 @@ page 71707001 "Case Card"
                                 SendEmail.DeptToEscalateTo(CaseNo);
                                 //Send Email;
                                 SendEmail.CaseEscalation(CaseNo);
+                                
                             end else begin
                                 Error('The case Is closed');
                             end;
@@ -504,6 +506,7 @@ page 71707001 "Case Card"
                                 end;
                                 Rec.Status := Rec.Status::BD;
                                 Rec.Stage := rec.Stage::"In Progress";
+                               SendEmail.EraseComments(CaseNo);
                                 //Message('Stage To Escalate To:%1', Rec.Status);
                                 Commit();
                                 SetEditableFields();
@@ -548,6 +551,7 @@ page 71707001 "Case Card"
                                 end;
                                 Rec.Status := Rec.Status::Credit;
                                 Rec.Stage := rec.Stage::"In Progress";
+                                 SendEmail.EraseComments(CaseNo);
                                 Commit();
                                 SetEditableFields();
                                 CurrPage.Update();
@@ -592,6 +596,7 @@ page 71707001 "Case Card"
                                 end;
                                 Rec.Status := Rec.Status::Finance;
                                 Rec.Stage := rec.Stage::"In Progress";
+                                 SendEmail.EraseComments(CaseNo);
                                 Commit();
                                 SetEditableFields();
                                 CurrPage.Update();
@@ -635,6 +640,7 @@ page 71707001 "Case Card"
                                 end;
                                 Rec.Status := Rec.Status::ICT;
                                 Rec.Stage := rec.Stage::"In Progress";
+                                 SendEmail.EraseComments(CaseNo);
                                 Commit();
                                 SetEditableFields();
                                 CurrPage.Update();
@@ -677,6 +683,7 @@ page 71707001 "Case Card"
                                 end;
                                 Rec.Status := Rec.Status::HR;
                                 Rec.Stage := rec.Stage::"In Progress";
+                                 SendEmail.EraseComments(CaseNo);
                                 Commit();
                                 SetEditableFields();
                                 CurrPage.Update();
@@ -1063,6 +1070,8 @@ page 71707001 "Case Card"
             Rec."Relationship Officer Name" := '';
         end;
     end;
+
+    
 
     trigger OnOpenPage();
     begin

@@ -2,10 +2,8 @@ pageextension 71707028 "Member Application Card Exts" extends "Member Applicatio
 {
     layout
     {
-        modify(Name)
-        {
-            ToolTip = 'Enter Full Name as per the ID';
-        }
+        
+        
         addafter("KRA PIN")
         {
             field("Campaign No."; Rec."Campaign No.")

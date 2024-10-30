@@ -481,6 +481,7 @@ table 71707000 "Case"
         field(73; Remarks; Text[500])
         {
             Caption = 'Resolution/Remarks';
+            Editable=false;
         }
         field(74; "IsReleased?"; Boolean)
         {

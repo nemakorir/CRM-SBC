@@ -5,29 +5,18 @@ codeunit 71707001 SendEmail
 
     var
         EmailBody: Text;
+        ThreadID: Text[250];
     begin
         URL := 'http://192.168.137.116:8080/BC200/';
         SvrHeader.SetRange("Service No.", CaseNo);
         if SvrHeader.FindFirst() then begin
             RecipientEmailAddress := SvrHeader."E mail address";
-            //Message('RecipientEmailAddress:1%', RecipientEmailAddress);
-            //Secondary email
-            if (SvrHeader."IsReleased?" = true) then begin
-                UserSetup.SetRange("User ID", SvrHeader."Created By");
-                if UserSetup.FindFirst() then begin
-                    DeptReassign.SetRange(DimensionCode, UpperCase(Format((UserSetup."Station/Department"))));
-                    if DeptReassign.FindFirst() then begin
-                        //Message('RecipientEmailAddress:1%', DeptReassign."Email Address");
-                        ReassignedDeptEmail := DeptReassign."Email Address";
-                        RecipientEmailAddress := RecipientEmailAddress + ';' + ReassignedDeptEmail;
-                    end;
-                end;
-            end;
             Subject := SvrHeader."Service No." + ' ' + SvrHeader.Name + ' ' + Format(SvrHeader."Case Type");
             //Escalation message
             if (SvrHeader.Resolved = false) and (SvrHeader.Hold = false) then begin
                 SecondaryEmail();
-                Body := SvrHeader."Service No." + ' ' + SvrHeader.Description + ' for Customer No: ' + SvrHeader."Customer No." + '  Customer Name: ' + SvrHeader.Name + ' Mode of Contact:  ' + Format(SvrHeader."Mode of Contact") + ' and nature of service is. ' + Format(SvrHeader."Nature of Service") + ' ' + SvrHeader.Remarks + ' ' + URL;
+                EmailSubject := Subject;
+                Body := SvrHeader."Service No." + '\' + 'Customer No: ' + SvrHeader."Customer No." + '\' + '  Customer Name: ' + SvrHeader.Name + '\' + ' Mode of Contact:  ' + Format(SvrHeader."Mode of Contact") + '\' + ' Nature of service . ' + Format(SvrHeader."Nature of Service") + '\' + SvrHeader.Remarks + '\' + URL;
                 /*TemplateType := TemplateType::Escalation;
                 if GetEmailTemplate(TemplateType, EmailBody) then begin
                     Body := FormatEmailBody(EmailBody, SvrHeader);
@@ -36,6 +25,7 @@ codeunit 71707001 SendEmail
             //Resolution message
             if (SvrHeader.Resolved = true) and (SvrHeader.Hold = false) and (SvrHeader."IsReleased?" = false) then begin
                 SecondaryEmail();
+                EmailSubject := Subject;
                 Body := 'Dear Team , ' + ' Ticket No. ' + SvrHeader."Service No." + '  has been resolved with the following remarks  ' + SvrHeader.Remarks + ' ' + URL;
                 /*TemplateType := TemplateType::Resolution;
                 if GetEmailTemplate(TemplateType, EmailBody) then begin
@@ -45,23 +35,25 @@ codeunit 71707001 SendEmail
             //Hold message
             if (SvrHeader.Hold = true) and (SvrHeader."IsReleased?" = false) then begin
                 SecondaryEmail();
+                EmailSubject := Subject;
                 Body := SvrHeader."Service No." + ' is on hold: ' + SvrHeader.Remarks + ' ' + URL;
             end;
             //Release Ticket
             if (SvrHeader."IsReleased?" = true) then begin
-
+                SecondaryEmail();
+                EmailSubject := Subject;
                 Body := SvrHeader."Service No." + ' has been released: ' + SvrHeader.Remarks + ' ' + URL;
             end;
             //Closing message
             if SvrHeader."IsClosed?" then begin
-                // Message('IsClosed:%1', SvrHeader."IsClosed?");
+                EmailSubject := Subject;
                 Body := SvrHeader."Service No." + ' has been closed: ' + SvrHeader.Remarks + ' ' + URL;
                 /*TemplateType := TemplateType::Close;
                 if GetEmailTemplate(TemplateType, EmailBody) then begin
                     Body := FormatEmailBody(EmailBody, SvrHeader);
                 end;*/
             end;
-            EmailMessage.Create(RecipientEmailAddress, Subject, Body);
+            EmailMessage.Create(RecipientEmailAddress, EmailSubject, Body);
             IsSent := Email.Send(EmailMessage, Enum::"Email Scenario"::"BC Auto Notfications");
             if IsSent then
                 Message('Email sent successfully.')
@@ -205,6 +197,7 @@ codeunit 71707001 SendEmail
         end;
         exit(false);
     end;
+    //
 
     procedure FormatEmailBody(var EmailBody: Text; SvrHeader: Record "Case"): Text
     begin
@@ -223,6 +216,21 @@ codeunit 71707001 SendEmail
         exit('<' + Format(CaseNo) + '@mydomain.com>'); // Example ID format
     end;
 
+    procedure EraseComments(CaseNo: Code[100])
+    begin
+        SvrHeader.SetRange("Service No.", CaseNo);
+        if SvrHeader.FindFirst() then begin
+            SvrHeader."CX Department Comments" := '';
+            SvrHeader."BD Department Comments" := '';
+            SvrHeader."Credit Department Comments " := '';
+            SvrHeader."Finance Department Comments" := '';
+            SvrHeader."ICT Department Comments " := '';
+            SvrHeader."HR Department Comments " := '';
+            SvrHeader.Modify();
+        end;
+
+    end;
+
     var
         SvrHeader: Record "Case";
         SvrRelLine: Record "Case";
@@ -233,6 +241,7 @@ codeunit 71707001 SendEmail
         SenderEmailAddress: Text[250];
         RecipientEmailAddress: Text[250];
         Subject: Text[100];
+        EmailSubject: Text[100];
         Body: Text;
         IsSent: Boolean;
         ErrorMessage: Text;

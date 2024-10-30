@@ -53,6 +53,11 @@ tableextension 71707008 "Campaign Extension" extends Campaign
             DataClassification = ToBeClassified;
             Editable = false;
         }
+        field(71707005; "Campaign Name"; Text[100])
+        {
+            DataClassification = ToBeClassified;
+            
+        }
     }
     local procedure budgeCheck()
     begin

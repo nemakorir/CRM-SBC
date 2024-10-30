@@ -238,8 +238,11 @@ pageextension 71707011 "Member Statistic FactBox ext" extends "Member Statistic 
                     trigger OnDrillDown()
                     var
                         segmentRec: Record "Interaction Log Entry";
+                        sanitizedContactName: Text;
                     begin
-                        segmentRec.SetFilter("Contact Name", Rec.Name);
+                        
+                        segmentRec.SetRange("Contact Name", Rec.Name);
+                        //segmentRec.SetFilter("Contact Name", Format(Rec.Name, 0, '<Text>'));
                         Page.Run(Page::"Interaction Log Entries", segmentRec);
                     end;
                 }
@@ -305,7 +308,7 @@ pageextension 71707011 "Member Statistic FactBox ext" extends "Member Statistic 
                         var
                             OpprtRec: Record "Opportunity";
                         begin
-                            OpprtRec.SetFilter("Contact Name", Rec.Name);
+                            OpprtRec.SetRange("Contact Name", Rec.Name);
                             Page.Run(Page::"Opportunity List", OpprtRec);
                         end;
                     }
@@ -340,7 +343,7 @@ pageextension 71707011 "Member Statistic FactBox ext" extends "Member Statistic 
                     ApplicationArea = All;
                     trigger OnDrillDown()
                     begin
-                        segment.SetFilter("Contact Name", Rec.Name);
+                        segment.SetRange("Contact Name", Rec.Name);
                         Page.Run(Page::"Segment Subform", segment);
                     end;
                 }
@@ -561,7 +564,8 @@ pageextension 71707011 "Member Statistic FactBox ext" extends "Member Statistic 
 
         //CustomerInteractions
         segmentRec.Reset();
-        segmentRec.SetFilter("Contact Name", Rec.Name);
+        segmentRec.SetRange("Contact Name", Rec.Name);
+        //segmentRec.SetFilter("Contact Name", Format(Rec.Name, 0, '<Text>'));
         if segmentRec.FindSet() then begin
             repeat
                 CustomerInteractionCount += 1;
@@ -577,7 +581,7 @@ pageextension 71707011 "Member Statistic FactBox ext" extends "Member Statistic 
         end;*/
         //Opportunities
         Opprt.Reset();
-        Opprt.SetFilter("Contact Name", Rec.Name);
+        Opprt.SetRange("Contact Name", Rec.Name);
         if Opprt.FindSet() then begin
             repeat
                 OpportunityCount += 1;
@@ -586,7 +590,7 @@ pageextension 71707011 "Member Statistic FactBox ext" extends "Member Statistic 
         end;
         //Campigns
         segment.Reset();
-        segment.SetFilter("Contact Name", Rec.Name);
+        segment.SetRange("Contact Name", Rec.Name);
         if segment.FindSet() then begin
             repeat
                 CampaignCount += 1;

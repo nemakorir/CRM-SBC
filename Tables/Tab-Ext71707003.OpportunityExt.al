@@ -214,10 +214,37 @@ tableextension 71707003 "Opportunity Ext" extends Opportunity
         {
             Caption = 'Branch Code';
             DataClassification = ToBeClassified;
-            tableRelation ="Dimension Value".Code where ("Dimension Code"=const('BRANCH'));
+            tableRelation = "Dimension Value".Code where("Dimension Code" = const('BRANCH'));
 
         }
+        field(71707021; IsCustomer; Boolean)
+        {
 
+        }
+        field(71707022; "Customer No."; Code[150])
+        {
+            TableRelation = if (IsCustomer = const(true)) Customer."No.";
+            trigger OnValidate()
+            begin
+                if Cust.Get("Customer No.") then begin
+                    "Customer Name" := Cust.Name;
+                    "ID No." := cust."Identification Doc. No.";
+                    "Source Of Business" := Cust."Source Of Customer";
+                    "Recruited By" := Cust."Recruited By";
+                    "Sales Person" := Cust."Recruiter Name";
+                    "Relationship Officer Code" := cust."Relationship Officer";
+                    "Relationship Officer Name" := Cust."Relationship Officer Name";
+                    "Branch Code" := Cust."Branch Code";
+                    "Phone No." := Cust."Mobile Phone No";
+                    "Contact No." := '';
+                    "Contact Name" := ''
+                end
+            end;
+        }
+        field(71707023; "Customer Name"; Text[100])
+        {
+            Editable = false;
+        }
     }
     trigger OnInsert()
     begin

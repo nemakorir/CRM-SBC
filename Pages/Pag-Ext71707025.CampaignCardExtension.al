@@ -14,6 +14,13 @@ pageextension 71707025 "Campaign Card Extension" extends "Campaign Card"
                 ApplicationArea = All;
             }
         }
+        addafter("No.")
+        {
+            field("Campaign Name"; Rec."Campaign Name")
+            {
+                ApplicationArea = All;
+            }
+        }
         addbefore(Activated)
         {
             field("Budget Name"; Rec."Budget Name")
