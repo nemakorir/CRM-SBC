@@ -37,7 +37,7 @@ table 71707000 "Case"
                 cust: Record Customer;
             begin
                 if cust.get(Rec."Customer No.") then begin
-                    Name := cust."Search Name";
+                    Name := cust.Name;
                     "E-Mail" := cust."E-Mail";
                     "Phone No." := cust."Mobile Phone No";
                     "Branch Code" := cust."Branch Code";
@@ -338,9 +338,9 @@ table 71707000 "Case"
                 end;
                 if "Case Initiator Type" = "Case Initiator Type"::Customer then begin
                     if Cust.get("Case Initiator Code") then begin
-                        "Case Initiator Name" := Cust."Search Name";
+                        "Case Initiator Name" := Cust.Name;
                         "Customer No." := cust."No.";
-                        Name := cust."Search Name";
+                        Name := cust.Name;
                         "E-Mail" := cust."E-Mail";
                         "Phone No." := cust."Mobile Phone No";
                         "Branch Code" := cust."Branch Code";
