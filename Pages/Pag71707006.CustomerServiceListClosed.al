@@ -8,6 +8,9 @@ page 71707006 "Customer Service List(Closed)"
     CardPageId = "Case Card";
     SourceTableView = where(Status = const(Closed));
     DeleteAllowed = false;
+    InsertAllowed = false;
+    Editable = false;
+    PromotedActionCategories = 'New,Process,Report,New Document,Case Filters,Request Approval,Navigate,Customer';
     layout
     {
         area(Content)
@@ -64,6 +67,37 @@ page 71707006 "Customer Service List(Closed)"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Comment field.', Comment = '%';
                 }
+            }
+        }
+    }
+    actions
+    {
+        area(navigation)
+        {
+            action("Case Filters")
+            {
+                Caption = 'Open Cases Via Filter Page';
+                ApplicationArea = All;
+                Promoted = true;
+                PromotedCategory = Category5;
+                PromotedIsBig = true;
+                trigger OnAction()
+                var
+                    varFilterPageBuilder: FilterPageBuilder;
+                    varFilterApplied: Boolean;
+                    filterQuery: Text;
+                begin
+                    varFilterPageBuilder.AddTable('Case', Database::"Case");
+                    varFilterPageBuilder.PageCaption := 'Case Filters';
+                    varFilterApplied := varFilterPageBuilder.RunModal();
+                    /*if varFilterApplied then begin
+                        // Retrieve the filters and apply them to the current page
+                        filterQuery := varFilterPageBuilder.GetTableView(Database::"Case").GetFilter();
+                        Rec.SetView(filterQuery);
+                        CurrPage.Update(false); // Refresh the page with new filters
+                    end;*/
+
+                end;
             }
         }
     }

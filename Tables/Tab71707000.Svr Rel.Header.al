@@ -16,7 +16,7 @@ table 71707000 "Case"
             OptionMembers = "",Complaint,"service request",compliment;
 
         }
-        field(3; Description; Text[200])
+        field(3; Description; Text[1000])
         {
             Caption = 'Description';
         }
@@ -264,6 +264,7 @@ table 71707000 "Case"
         {
             Caption = 'Department assigned';
             Editable = false;
+            TableRelation="Departments Re-Assignment".DimensionCode;
         }
         field(44; "Departmental Officer"; Code[50])
         {

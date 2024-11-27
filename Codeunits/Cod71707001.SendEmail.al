@@ -7,7 +7,7 @@ codeunit 71707001 SendEmail
         EmailBody: Text;
         ThreadID: Text[250];
     begin
-        URL := 'http://192.168.137.116:8080/BC200/';
+        URL := 'http://192.168.137.120:8080/BC200/';
         SvrHeader.SetRange("Service No.", CaseNo);
         if SvrHeader.FindFirst() then begin
             RecipientEmailAddress := SvrHeader."E mail address";

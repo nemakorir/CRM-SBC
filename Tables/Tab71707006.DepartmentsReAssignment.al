@@ -29,5 +29,9 @@ table 71707006 "Departments Re-Assignment"
         {
             Clustered = true;
         }
+        key(key1; DimensionCode)
+        {
+            
+        }
     }
-}
+    }
