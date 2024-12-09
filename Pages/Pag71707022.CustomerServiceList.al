@@ -20,6 +20,11 @@ page 71707022 "Customer Service List"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Service No. field.', Comment = '%';
                 }
+                field(Stage; Rec.Stage)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Status';
+                }
                 field(Status; Rec.Status)
                 {
                     ApplicationArea = All;

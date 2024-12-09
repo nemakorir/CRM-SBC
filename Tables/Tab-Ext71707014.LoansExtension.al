@@ -26,5 +26,8 @@ tableextension 71707014 "Loans Extensions" extends Loans
             DataClassification = ToBeClassified;
             Editable = false;
         }
+        field(71707004; "Loan Amount In Words"; Text[200])
+        {
+        }
     }
 }
