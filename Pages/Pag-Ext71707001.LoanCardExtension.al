@@ -30,6 +30,7 @@ pageextension 71707001 "Loan Card Extension" extends "Loan Card"
             {
                 ApplicationArea = All;
             }
+            
             field("Segment No."; Rec."Segment No.")
             {
                 ApplicationArea = All;
